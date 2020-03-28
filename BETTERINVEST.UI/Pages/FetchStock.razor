@@ -1,0 +1,168 @@
+﻿@page "/stocklist"
+@inject IStockManager stockManager
+
+@using BlazorTable
+
+Selection Type:
+<select class="form-control form-control-sm" @onchange="@((x) => selectionType = (SelectionType)Enum.Parse(typeof(SelectionType), x.Value.ToString()))">
+    @foreach (var option in Enum.GetValues(typeof(SelectionType)))
+    {
+        <option value="@option">@option</option>
+    }
+</select>
+Last Clicked: @selectedStock?.Symbol
+<br />
+Selected: @(selectedStocks.Any() ? selectedStocks.Select(x => x.Symbol).Aggregate((c, n) => $"{c},{n}") : "None")
+<br />
+<br />
+<button class="btn btn-sm btn-danger" title="Toggle Edit Mode" @onclick="@((x) => ToggleEdit())">Toggle Edit Mode</button>
+<br />
+<br />
+<Table TableItem="StockModel" Items="stockModel" PageSize="15" @ref="Table" SelectionType="selectionType" RowClickAction="RowClick" SelectedItems="selectedStocks">
+    <Column TableItem="StockModel" Title="Ticker Symbol" Field="@(x => x.Symbol)" Sortable="true" Filterable="true" DefaultSortColumn="true">
+        <EditTemplate>
+            <input type="text" @bind-value="@context.Symbol" class="form-control form-control-sm" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Shares" Field="@(x => x.Shares)" Sortable="true" Filterable="true">
+        <EditTemplate>
+            <input type="number" @bind-value="@context.Shares" class="form-control form-control-sm" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Total Cost" Field="@(x => x.TotalCost)" Sortable="true" Filterable="true">
+        <EditTemplate>
+            <input type="number" @bind-value="@context.TotalCost" class="form-control form-control-sm" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Dividend" Field="@(x => x.Dividend)" Sortable="true" Filterable="true">
+        <EditTemplate>
+            <input type="number" @bind-value="@context.Dividend" class="form-control form-control-sm" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Frequency" Field="@(x => x.Frequency)" Sortable="false" Filterable="false">
+        <EditTemplate>
+            <input type="number" @bind-value="@context.Frequency" class="form-control form-control-sm" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Jan" Field="@(x => x.Month01)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month01.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month01" class="form-control form-control-sm" checked="@(context.Month01)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Feb" Field="@(x => x.Month02)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month02.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month02" class="form-control form-control-sm" checked="@(context.Month02)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Mar" Field="@(x => x.Month03)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month03.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month03" class="form-control form-control-sm" checked="@(context.Month03)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Apr" Field="@(x => x.Month04)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month04.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month04" class="form-control form-control-sm" checked="@(context.Month04)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="May" Field="@(x => x.Month05)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month05.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month05" class="form-control form-control-sm" checked="@(context.Month05)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Jun" Field="@(x => x.Month06)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month06.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month06" class="form-control form-control-sm" checked="@(context.Month06)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Jul" Field="@(x => x.Month07)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month07.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month07" class="form-control form-control-sm" checked="@(context.Month07)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Aug" Field="@(x => x.Month08)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month08.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month08" class="form-control form-control-sm" checked="@(context.Month08)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Sep" Field="@(x => x.Month09)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month09.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month09" class="form-control form-control-sm" checked="@(context.Month09)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Oct" Field="@(x => x.Month10)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month10.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month10" class="form-control form-control-sm" checked="@(context.Month10)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Nov" Field="@(x => x.Month11)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month11.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month11" class="form-control form-control-sm" checked="@(context.Month11)" />
+        </EditTemplate>
+    </Column>
+    <Column TableItem="StockModel" Title="Dec" Field="@(x => x.Month12)" Sortable="false" Filterable="false">
+        <Template>
+            @context.Month12.ToString()
+        </Template>
+        <EditTemplate>
+            <input type="checkbox" @bind-value="@context.Month12" class="form-control form-control-sm" checked="@(context.Month12)" />
+        </EditTemplate>
+    </Column>
+    <Pager ShowPageNumber="true" ShowTotalCount="true" />
+</Table>
+
+@code {
+    private ITable<StockModel> Table;
+    private SelectionType selectionType;
+    private StockModel selectedStock;
+    private List<StockModel> selectedStocks = new List<StockModel>();
+    List<StockModel> stockModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        stockModel = await stockManager.ListAll();
+    }
+
+    public void RowClick(StockModel data)
+    {
+        selectedStock = data;
+        StateHasChanged();
+    }
+
+    private void ToggleEdit()
+    {
+        Table.ToggleEditMode();
+    }
+}

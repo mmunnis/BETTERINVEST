@@ -1,0 +1,79 @@
+﻿@page "/addStock"
+@inject IStockManager stockManager
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<h1>
+    Add Stock
+</h1>
+
+<form>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Symbol" class="control-label">Symbol</label>
+                <input for="Symbol" class="form-control" @bind-value="@stock.Symbol" />
+            </div>
+            <div class="form-group">
+                <label for="Shares" class="control-label">Shares</label>
+                <input for="Shares" class="form-control" @bind-value="@stock.Shares" />
+            </div>
+            <div class="form-group">
+                <label for="TotalCost" class="control-label">Total Cost</label>
+                <input for="TotalCost" class="form-control" @bind-value="@stock.TotalCost" />
+            </div>
+            <div class="form-group">
+                <label for="Dividend" class="control-label">Dividend</label>
+                <input for="Dividend" class="form-control" @bind-value="@stock.Dividend" />
+            </div>
+            <div class="form-group">
+                <label for="Frequency" class="control-label">Frequency</label>
+                <input for="Frequency" class="form-control" @bind-value="@stock.Frequency" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            <div class="form-group">
+                <label class="mb-1">JAN</label>
+                <div class="row">
+                    <div class="col-auto">
+                        <div class="custom-control custom-switch">
+                            <input for="Month01" type="checkbox" class="custom-control-input" @bind-value="@stock.Month01">
+                            <label for="Month01" class="custom-control-label"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="mb-1">FEB</label>
+                <div class="row">
+                    <div class="col-auto">
+                        <div class="custom-control custom-switch">
+                            <input for="Month02" type="checkbox" class="custom-control-input" @bind-value="@stock.Month02">
+                            <label for="Month02" class="custom-control-label"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-primary" @onclick="() => CreateStock()">Save</button>
+        <button type="button" class="btn btn-danger" @onclick="() => cancel()">Cancel</button>
+    </div>
+</form>
+
+@code {
+
+    StockModel stock = new StockModel();
+
+    protected async Task CreateStock()
+    {
+        await stockManager.Create(stock);
+        navigationManager.NavigateTo("/stocklist");
+    }
+
+    void cancel()
+    {
+        navigationManager.NavigateTo("/stocklist");
+    }
+}
